@@ -1,4 +1,5 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react'
+import { ResponsiveBar } from '@nivo/bar'
 import { SpinnerCircular } from 'spinners-react'
 
 const spinnerStyle: CSSProperties = {
@@ -28,9 +29,8 @@ const spinningImgStyle: CSSProperties = {
 }
 
 interface Record {
-  id: string
   cuit: string
-  amount: string
+  amount: number
 }
 
 const Main: React.FC = () => {
@@ -39,9 +39,15 @@ const Main: React.FC = () => {
 
   const getRecords = async () => {
     setLoading(true)
-    const res = await fetch('/api/amountsbycuit')
+    const res = await fetch('/api/amountsbycuit.py')
     const newData = await res.json()
-    setRecords(newData)
+    const d = newData.data
+      // .map((d: Record) => ({ ...d, amount: Math.log10(d.amount) }))
+      .filter((d: Record) => d.amount > 0)
+      .slice(0, 50)
+      .reverse()
+    // console.log(d)
+    setRecords(d)
     setLoading(false)
   }
 
@@ -58,12 +64,16 @@ const Main: React.FC = () => {
           <span style={spinnerSpanStyle}>data boravisual</span>
         </div>
       ) : null}
-      {records.map((r) => (
-        <div key={r.id}>
-          <span>{r.cuit}</span>
-          <span>{r.amount}</span>
-        </div>
-      ))}
+      <div style={{ height: 'calc(100vh - 25px)' }}>
+        <ResponsiveBar
+          data={records}
+          keys={['amount']}
+          indexBy="cuit"
+          layout="horizontal"
+          enableGridY={false}
+          enableGridX={true}
+        />
+      </div>
     </>
   )
 }

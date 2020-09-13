@@ -6,7 +6,7 @@ from http.server import BaseHTTPRequestHandler
 class handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        sqlite_connection = sqlite3.connect('./db3.sqlite')
+        sqlite_connection = sqlite3.connect('api/db3.sqlite')
         data = pd.read_sql_query("SELECT * FROM data", sqlite_connection)
         data_filtered = data[data.content1.str.contains('adjudic', case=False, na=False)]
         data_filtered['cuit'] = data_filtered.content1.str.extract('(\d\d-\d\d\d\d\d\d\d\d-\d)')
@@ -19,9 +19,9 @@ class handler(BaseHTTPRequestHandler):
         data_values = data_filtered[['cuit', 'amount']]
         data_values.head()
         info = data_values.groupby(['cuit']).sum()
-        info = info.sort_values('amount')
+        info = info.sort_values('amount', ascending=False)
 
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        self.wfile.write(info.to_json())
+        self.wfile.write(info.to_json(orient="table").encode())
