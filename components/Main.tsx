@@ -1,3 +1,4 @@
+import Modal from 'antd/lib/modal/Modal'
 import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { ResponsiveBar } from '@nivo/bar'
 import { SpinnerCircular } from 'spinners-react'
@@ -33,20 +34,37 @@ interface Record {
   amount: number
 }
 
+interface RecordDetail {
+  index: string
+  title: string
+  href: string
+  detail1: string
+  detail2: string
+  detail3: string
+  title2: string
+  entity: string
+  subtitle: string
+  date: string
+  content1: string
+  content2: string
+  content3: string
+  amount: number
+}
+
 const Main: React.FC = () => {
   const [records, setRecords] = useState<Array<Record>>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const [detailCuit, setDetailCuit] = useState<string>('')
+  const [detail, setDetail] = useState<Array<RecordDetail>>()
 
   const getRecords = async () => {
     setLoading(true)
-    const res = await fetch('/api/amountsbycuit.py')
+    const res = await fetch('/api/amountsbycuit.py?search')
     const newData = await res.json()
     const d = newData.data
       // .map((d: Record) => ({ ...d, amount: Math.log10(d.amount) }))
-      .filter((d: Record) => d.amount > 0)
-      .slice(0, 50)
+      .filter((d: Record) => d.amount > 0 && d.cuit != '0')
       .reverse()
-    // console.log(d)
     setRecords(d)
     setLoading(false)
   }
@@ -54,6 +72,21 @@ const Main: React.FC = () => {
   useEffect(() => {
     getRecords()
   }, [])
+
+  const getDetail = async (cuit: string) => {
+    setLoading(true)
+    const res = await fetch(`/api/cuit.py?search=${cuit}`)
+    const newData = await res.json()
+    const d = newData.data
+    setDetail(d)
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    if (detailCuit) {
+      getDetail(detailCuit)
+    }
+  }, [detailCuit])
 
   return (
     <>
@@ -64,7 +97,65 @@ const Main: React.FC = () => {
           <span style={spinnerSpanStyle}>data boravisual</span>
         </div>
       ) : null}
-      <div style={{ height: 'calc(100vh - 25px)' }}>
+      <Modal visible={!!detailCuit} onCancel={() => setDetailCuit('')} onOk={() => setDetailCuit('')}>
+        <div>
+          {detailCuit}
+          &nbsp;
+          <a href={`https://www.cuitonline.com/search.php?q=${detailCuit.replaceAll('-', '')}`} target="_blank">
+            mas info...
+          </a>
+        </div>
+        <div>Total: $ {detail?.reduce((prev, detail) => prev + detail.amount, 0)?.toLocaleString()}</div>
+        <hr />
+        {detail?.map((d, i) => (
+          <div key={d.index}>
+            <div>
+              Licitacion #{i + 1}:&nbsp;
+              <a href={d.href} target="_blank">
+                link al bora
+              </a>
+            </div>
+            <div>
+              <span className="bold">fecha:</span> {d.date}
+            </div>
+            <div>
+              <span className="bold">monto:</span> $ {d.amount.toLocaleString()}
+            </div>
+            <div>
+              <span className="bold">entidad:</span> {d.entity}
+            </div>
+            <div>
+              <span className="bold">titulo:</span> {d.title}
+            </div>
+            <div>
+              <span className="bold">titulo2:</span> {d.title2}
+            </div>
+            <div>
+              <span className="bold">subtitulo:</span> {d.subtitle}
+            </div>
+            <div>
+              <span className="bold">detalle1:</span> {d.detail1}
+            </div>
+            <div>
+              <span className="bold">detalle2:</span> {d.detail2}
+            </div>
+            <div>
+              <span className="bold">detalle3:</span> {d.detail3}
+            </div>
+            <div>
+              <span className="bold">contenido1:</span> {d.content1}
+            </div>
+            <div>
+              <span className="bold">contenido2:</span> {d.content2}
+            </div>
+            <div>
+              <span className="bold">contenido3:</span> {d.content3}
+            </div>
+            <hr />
+          </div>
+        ))}
+      </Modal>
+      <div style={{ height: '10000px' }}>
         <ResponsiveBar
           data={records}
           keys={['amount']}
@@ -72,6 +163,10 @@ const Main: React.FC = () => {
           layout="horizontal"
           enableGridY={false}
           enableGridX={true}
+          tooltipFormat={(v) => `$ ${v.toLocaleString()}`}
+          labelFormat={(v) => `$ ${v.toLocaleString()}`}
+          onClick={(bar) => setDetailCuit(bar.data.cuit.toString())}
+          colors={['#ade']}
         />
       </div>
     </>
