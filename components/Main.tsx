@@ -1,5 +1,6 @@
 import Modal from 'antd/lib/modal/Modal'
 import React, { CSSProperties, useEffect, useRef, useState } from 'react'
+import { Alert } from 'antd'
 import { ResponsiveBar } from '@nivo/bar'
 import { SpinnerCircular } from 'spinners-react'
 
@@ -90,6 +91,10 @@ const Main: React.FC = () => {
 
   return (
     <>
+      <Alert
+        type="warning"
+        message="Esta app es todavia una prueba de concepto. La informacion no esta completamente limpia, hay duplicacion de datos y falta parsear la mitad del BORA"
+      />
       {loading ? (
         <div style={spinnerStyle}>
           <SpinnerCircular style={spinningImgStyle} thickness={200} color="#444" secondaryColor="#FFF" />
