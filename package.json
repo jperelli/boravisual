@@ -22,7 +22,6 @@
     "@zeit/next-sass": "^1.0.1",
     "antd": "^4.6.4",
     "babel-plugin-import": "^1.13.0",
-    "core-js": "^3.6.5",
     "import-sort-style-renke": "^6.0.0",
     "less": "^3.12.2",
     "next": "^9.5.3",
