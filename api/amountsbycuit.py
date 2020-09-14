@@ -7,7 +7,7 @@ class handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         sqlite_connection = sqlite3.connect('api/db3.sqlite')
-        data = pd.read_sql_query("SELECT * FROM data", sqlite_connection)
+        data = pd.read_sql_query("SELECT * FROM data GROUP BY href", sqlite_connection)
         data_filtered = data[data.content1.str.contains('adjudic', case=False, na=False)]
         data_filtered['cuit'] = data_filtered.content1.str.extract('(\d\d-\d\d\d\d\d\d\d\d-\d)')
         data_filtered['amount'] = data_filtered.content1.str.extract('\$\s{0,}([\d\,\.\s]*)')

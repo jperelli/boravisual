@@ -12,7 +12,7 @@ class handler(BaseHTTPRequestHandler):
         qs = parse_qs(urlparse(self.path).query)
 
         sqlite_connection = sqlite3.connect('api/db3.sqlite')
-        data = pd.read_sql_query("SELECT * FROM data", sqlite_connection)
+        data = pd.read_sql_query("SELECT * FROM data GROUP BY href", sqlite_connection)
         data_filtered = data[data.content1.str.contains('adjudic', case=False, na=False)]
         if 'search' in qs and qs['search']:
             data_filtered = data[data.content1.str.contains(qs['search'][0], case=False, na=False)]
