@@ -106,7 +106,7 @@ const Main: React.FC = () => {
         <div>
           {detailCuit}
           &nbsp;
-          <a href={`https://www.cuitonline.com/search.php?q=${detailCuit.replaceAll('-', '')}`} target="_blank">
+          <a href={`https://www.cuitonline.com/search.php?q=${detailCuit.replace(/-/g, '')}`} target="_blank">
             mas info...
           </a>
         </div>
