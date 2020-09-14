@@ -26,6 +26,18 @@ export default function Index() {
         <meta property="og:image" content="https://boravisual.vercel.app/og.png" />
         <meta property="og:image:width" content="620" />
         <meta property="og:image:height" content="620" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-177943574-1" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'UA-177943574-1');
+              `,
+          }}
+        />
       </Head>
       <Githubcorner />
       <Main />
