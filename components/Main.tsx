@@ -1,6 +1,6 @@
 import Modal from 'antd/lib/modal/Modal'
 import React, { CSSProperties, useEffect, useRef, useState } from 'react'
-import { Alert } from 'antd'
+import { Alert, Tag } from 'antd'
 import { ResponsiveBar } from '@nivo/bar'
 import { SpinnerCircular } from 'spinners-react'
 
@@ -21,13 +21,13 @@ const spinnerSpanStyle: CSSProperties = {
   padding: '4px 0',
 }
 const spinningImgStyle: CSSProperties = {
-  animation: 'rotation 4s infinite linear',
+  animation: 'rotation 2s infinite linear',
   borderRadius: '50%',
   backgroundImage: 'url(/favicon.ico)',
   backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover',
+  backgroundSize: '50%',
   backgroundOrigin: 'content-box',
-  backgroundPosition: '5px 12px',
+  backgroundPosition: '50% 50%',
 }
 
 interface Record {
@@ -114,47 +114,21 @@ const Main: React.FC = () => {
         <hr />
         {detail?.map((d, i) => (
           <div key={d.index}>
+            <div className="bold">{d.subtitle}</div>
             <div>
-              Licitacion #{i + 1}:&nbsp;
               <a href={d.href} target="_blank">
-                link al bora
+                {d.date.replace('Fecha de publicación ', '')}
               </a>
             </div>
+            <div>{d.entity}</div>
             <div>
-              <span className="bold">fecha:</span> {d.date}
+              <Tag color="green">$ {d.amount.toLocaleString()}</Tag>
             </div>
-            <div>
-              <span className="bold">monto:</span> $ {d.amount.toLocaleString()}
+            <div className="pre">
+              <span>{d.content1}:</span>
             </div>
-            <div>
-              <span className="bold">entidad:</span> {d.entity}
-            </div>
-            <div>
-              <span className="bold">titulo:</span> {d.title}
-            </div>
-            <div>
-              <span className="bold">titulo2:</span> {d.title2}
-            </div>
-            <div>
-              <span className="bold">subtitulo:</span> {d.subtitle}
-            </div>
-            <div>
-              <span className="bold">detalle1:</span> {d.detail1}
-            </div>
-            <div>
-              <span className="bold">detalle2:</span> {d.detail2}
-            </div>
-            <div>
-              <span className="bold">detalle3:</span> {d.detail3}
-            </div>
-            <div>
-              <span className="bold">contenido1:</span> {d.content1}
-            </div>
-            <div>
-              <span className="bold">contenido2:</span> {d.content2}
-            </div>
-            <div>
-              <span className="bold">contenido3:</span> {d.content3}
+            <div className="light">
+              <span>id: {d.content2}</span>
             </div>
             <hr />
           </div>
