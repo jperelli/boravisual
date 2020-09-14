@@ -1,5 +1,7 @@
 # boravisual
 
+> Warning: Esto es un trabajo en progreso. Los datos todavia no estan suficientemente limpios. Hay 50% de datos que no pude parsear y hay un 20% duplicado. Por ahora es solamente una minima prueba de concepto.
+
 Hace rato queria hacer una app sencilla con algo de data science. Termine haciendo esto en ~2 dias con un poco de scraping, google colab, pandas y vercel.
 
 Deployado aca [boravisual.vercel.app](https://boravisual.vercel.app/)
