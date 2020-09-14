@@ -4,6 +4,8 @@ Fix error with replaceAll not available to 40% of users
 
 - Improve browserslist
 - Add warning message beta work in progress
+- Remove some duplicates (sqlite groupby href)
+- Improve detail modal UI
 
 # 2020.09.13
 
