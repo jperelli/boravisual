@@ -1,3 +1,10 @@
+# 2020.09.14
+
+Fix error with replaceAll not available to 40% of users
+
+- Improve browserslist
+- Add warning message beta work in progress
+
 # 2020.09.13
 
 Add scraper and improve ui
