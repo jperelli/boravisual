@@ -3,12 +3,17 @@ import React, { CSSProperties } from 'react'
 import classes from '../styles/Githubcorner.module.css'
 
 const styles: { [key: string]: CSSProperties } = {
-  svg: { fill: '#151513', color: '#fff', position: 'absolute', top: 0, border: 0, right: 0 },
+  svg: { fill: '#151513', color: '#fff', position: 'fixed', top: 0, border: 0, right: 0, zIndex: 1000 },
   path1: { transformOrigin: '130px 106px' },
 }
 const Githubcorner: React.FC = () => {
   return (
-    <a href="https://github.com/jperelli/boravisual" target="_blank" className={classes.githubcorner} aria-label="View source on GitHub">
+    <a
+      href="https://github.com/jperelli/boravisual"
+      target="_blank"
+      className={classes.githubcorner}
+      aria-label="View source on GitHub"
+    >
       <svg width="80" height="80" viewBox="0 0 250 250" style={styles.svg} aria-hidden="true">
         <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
         <path
